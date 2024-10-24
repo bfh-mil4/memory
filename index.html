@@ -5,29 +5,40 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weihnachtliches Memory-Spiel</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Mountains+of+Christmas:wght@400;700&display=swap');
+
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Arial', sans-serif;
+            font-family: 'Mountains of Christmas', cursive;
         }
 
         body {
-            background-color: #2d3436;
+            background: url('https://i.imgur.com/5xrvAT3.png') no-repeat center center/cover;
             display: flex;
             justify-content: center;
             align-items: center;
             flex-direction: column;
             height: 100vh;
+            overflow: hidden;
+            position: relative;
             color: #ffffff;
         }
 
         h1 {
             text-align: center;
-            margin-bottom: 20px;
-            font-size: 2em;
-            color: #dfe6e9;
+            margin-bottom: 10px;
+            font-size: 3em;
+            color: #ffeaa7;
             text-shadow: 2px 2px #d63031;
+        }
+
+        .scoreboard {
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            color: #ff7675;
+            font-weight: bold;
         }
 
         .container {
@@ -51,6 +62,10 @@
             transform: scale(1);
             transform-style: preserve-3d;
             transition: transform 0.5s;
+            border: 3px solid gold;
+            border-radius: 15px;
+            background-color: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 0 6px 20px rgba(0, 0, 0, 0.19);
         }
 
         .memory-card.flip {
@@ -71,75 +86,97 @@
 
         .back-face {
             background-color: #f8f3f4;
+            background-image: url('https://i.imgur.com/5xrvAT3.png');
             border: 2px solid #74b9ff;
-        }
-
-        body {
-            background: linear-gradient(135deg, #2980b9 0%, #6dd5fa 100%);
         }
 
         .memory-card {
             cursor: pointer;
             background-color: #f5f6fa;
-            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
         }
 
         .memory-card:hover {
-            transform: scale(1.05);
+            transform: scale(1.1);
+            transition: transform 0.3s;
         }
 
-        /* Weihnachtsfarben und Design */
-        .memory-card .back-face {
-            background: url('images/back.png') no-repeat center center/cover;
+        /* Schneefall Effekt */
+        @keyframes snowfall {
+            0% { transform: translateY(-10px); }
+            100% { transform: translateY(100vh); }
         }
 
-        h1 {
-            color: #ffffff;
+        .snowflake {
+            position: absolute;
+            top: -10px;
+            font-size: 1em;
+            opacity: 0.8;
+            color: white;
+            user-select: none;
+            pointer-events: none;
+            animation: snowfall 10s linear infinite;
         }
+
+        .snowflake:nth-child(odd) {
+            animation-duration: 8s;
+            font-size: 1.5em;
+        }
+
+        .snowflake:nth-child(even) {
+            animation-duration: 12s;
+            font-size: 1.2em;
+        }
+
     </style>
 </head>
 <body>
 
     <div class="container">
         <h1>🎄 Weihnachts-Memory-Spiel 🎅</h1>
+        <div class="scoreboard">Punktestand: <span id="score">0</span></div>
         <div class="memory-game">
             <div class="memory-card" data-card="santa">
-                <img class="front-face" src="images/santa.png" alt="Santa">
-                <img class="back-face" src="images/back.png" alt="Weihnachten">
+                <img class="front-face" src="https://i.imgur.com/j8gZYZk.png" alt="Santa">
+                <img class="back-face" src="https://i.imgur.com/5xrvAT3.png" alt="Weihnachten">
             </div>
             <div class="memory-card" data-card="santa">
-                <img class="front-face" src="images/santa.png" alt="Santa">
-                <img class="back-face" src="images/back.png" alt="Weihnachten">
+                <img class="front-face" src="https://i.imgur.com/j8gZYZk.png" alt="Santa">
+                <img class="back-face" src="https://i.imgur.com/5xrvAT3.png" alt="Weihnachten">
             </div>
             <div class="memory-card" data-card="tree">
-                <img class="front-face" src="images/tree.png" alt="Baum">
-                <img class="back-face" src="images/back.png" alt="Weihnachten">
+                <img class="front-face" src="https://i.imgur.com/BwcqV7B.png" alt="Baum">
+                <img class="back-face" src="https://i.imgur.com/5xrvAT3.png" alt="Weihnachten">
             </div>
             <div class="memory-card" data-card="tree">
-                <img class="front-face" src="images/tree.png" alt="Baum">
-                <img class="back-face" src="images/back.png" alt="Weihnachten">
+                <img class="front-face" src="https://i.imgur.com/BwcqV7B.png" alt="Baum">
+                <img class="back-face" src="https://i.imgur.com/5xrvAT3.png" alt="Weihnachten">
             </div>
             <div class="memory-card" data-card="gift">
-                <img class="front-face" src="images/gift.png" alt="Geschenk">
-                <img class="back-face" src="images/back.png" alt="Weihnachten">
+                <img class="front-face" src="https://i.imgur.com/TFHpdgF.png" alt="Geschenk">
+                <img class="back-face" src="https://i.imgur.com/5xrvAT3.png" alt="Weihnachten">
             </div>
             <div class="memory-card" data-card="gift">
-                <img class="front-face" src="images/gift.png" alt="Geschenk">
-                <img class="back-face" src="images/back.png" alt="Weihnachten">
+                <img class="front-face" src="https://i.imgur.com/TFHpdgF.png" alt="Geschenk">
+                <img class="back-face" src="https://i.imgur.com/5xrvAT3.png" alt="Weihnachten">
             </div>
             <div class="memory-card" data-card="snowman">
-                <img class="front-face" src="images/snowman.png" alt="Schneemann">
-                <img class="back-face" src="images/back.png" alt="Weihnachten">
+                <img class="front-face" src="https://i.imgur.com/IqG4B8Y.png" alt="Schneemann">
+                <img class="back-face" src="https://i.imgur.com/5xrvAT3.png" alt="Weihnachten">
             </div>
             <div class="memory-card" data-card="snowman">
-                <img class="front-face" src="images/snowman.png" alt="Schneemann">
-                <img class="back-face" src="images/back.png" alt="Weihnachten">
+                <img class="front-face" src="https://i.imgur.com/IqG4B8Y.png" alt="Schneemann">
+                <img class="back-face" src="https://i.imgur.com/5xrvAT3.png" alt="Weihnachten">
             </div>
         </div>
     </div>
 
+    <div class="snowflake" style="left: 10%; animation-duration: 10s;">❄️</div>
+    <div class="snowflake" style="left: 50%; animation-duration: 12s;">❄️</div>
+    <div class="snowflake" style="left: 90%; animation-duration: 8s;">❄️</div>
+
     <script>
         const cards = document.querySelectorAll('.memory-card');
+        let score = 0;
 
         let hasFlippedCard = false;
         let lockBoard = false;
@@ -172,6 +209,10 @@
         function disableCards() {
             firstCard.removeEventListener('click', flipCard);
             secondCard.removeEventListener('click', flipCard);
+
+            // Erhöhe den Punktestand
+            score++;
+            document.getElementById('score').innerText = score;
 
             resetBoard();
         }
