@@ -43,6 +43,7 @@
 
         .container {
             text-align: center;
+            display: none; /* Starten im ausgeblendeten Zustand */
         }
 
         .memory-game {
@@ -100,6 +101,47 @@
             transition: transform 0.3s;
         }
 
+        /* Start-Screen */
+        .start-screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            color: #fff;
+            text-align: center;
+        }
+
+        .start-screen h2 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+
+        .start-screen p {
+            font-size: 1.2em;
+            margin-bottom: 30px;
+        }
+
+        .start-btn {
+            padding: 15px 30px;
+            font-size: 1.2em;
+            background-color: #ff7675;
+            border: none;
+            color: white;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .start-btn:hover {
+            background-color: #e17055;
+        }
+
         /* Schneefall Effekt */
         @keyframes snowfall {
             0% { transform: translateY(-10px); }
@@ -130,6 +172,13 @@
     </style>
 </head>
 <body>
+
+    <!-- Start-Screen -->
+    <div class="start-screen">
+        <h2>🎅 Willkommen zum Weihnachts-Memory-Spiel 🎄</h2>
+        <p>Finde alle passenden Kartenpaare und sammle Punkte!</p>
+        <button class="start-btn" onclick="startGame()">Spiel Starten</button>
+    </div>
 
     <div class="container">
         <h1>🎄 Weihnachts-Memory-Spiel 🎅</h1>
@@ -181,6 +230,11 @@
         let hasFlippedCard = false;
         let lockBoard = false;
         let firstCard, secondCard;
+
+        function startGame() {
+            document.querySelector('.start-screen').style.display = 'none';
+            document.querySelector('.container').style.display = 'block';
+        }
 
         function flipCard() {
             if (lockBoard) return;
