@@ -1,231 +1,206 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Professionelles Weihnachts-Memory-Spiel</title>
-  <style>
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-      background-color: #2d3436;
-      background-image: url('https://cdn.pixabay.com/photo/2017/11/30/08/57/christmas-background-2980259_960_720.jpg');
-      background-size: cover;
-      background-position: center;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weihnachtliches Memory-Spiel</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+        }
 
-    h1 {
-      color: #ffffff;
-      text-align: center;
-      margin-bottom: 20px;
-      font-size: 2.5rem;
-    }
+        body {
+            background-color: #2d3436;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100vh;
+            color: #ffffff;
+        }
 
-    .level-selector {
-      margin-bottom: 20px;
-      text-align: center;
-    }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 2em;
+            color: #dfe6e9;
+            text-shadow: 2px 2px #d63031;
+        }
 
-    .level-selector button {
-      padding: 10px 20px;
-      margin: 5px;
-      font-size: 18px;
-      background-color: #27ae60;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: background-color 0.3s;
-    }
+        .container {
+            text-align: center;
+        }
 
-    .level-selector button:hover {
-      background-color: #2ecc71;
-    }
+        .memory-game {
+            width: 640px;
+            height: 640px;
+            display: flex;
+            flex-wrap: wrap;
+            perspective: 1000px;
+            margin: 0 auto;
+        }
 
-    .memory-game {
-      display: none;
-      width: 640px;
-      height: 640px;
-      display: flex;
-      flex-wrap: wrap;
-      perspective: 1000px;
-      margin-top: 20px;
-    }
+        .memory-card {
+            width: calc(25% - 10px);
+            height: calc(25% - 10px);
+            margin: 5px;
+            position: relative;
+            transform: scale(1);
+            transform-style: preserve-3d;
+            transition: transform 0.5s;
+        }
 
-    .memory-card {
-      width: calc(25% - 10px);
-      height: calc(25% - 10px);
-      margin: 5px;
-      position: relative;
-      transform: scale(1);
-      transform-style: preserve-3d;
-      transition: transform 0.5s;
-    }
+        .memory-card.flip {
+            transform: rotateY(180deg);
+        }
 
-    .memory-card.flip {
-      transform: rotateY(180deg);
-    }
+        .memory-card img {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            backface-visibility: hidden;
+            border-radius: 10px;
+        }
 
-    .front, .back {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      border-radius: 5px;
-      backface-visibility: hidden;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-size: 24px;
-    }
+        .front-face {
+            transform: rotateY(180deg);
+        }
 
-    .front {
-      background-color: #ffffff;
-      border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
+        .back-face {
+            background-color: #f8f3f4;
+            border: 2px solid #74b9ff;
+        }
 
-    .front img {
-      width: 80px;
-      height: 80px;
-    }
+        body {
+            background: linear-gradient(135deg, #2980b9 0%, #6dd5fa 100%);
+        }
 
-    .back {
-      background-color: #27ae60;
-      background-image: url('https://cdn.pixabay.com/photo/2016/11/19/18/06/christmas-1844229_960_720.png');
-      background-size: cover;
-      transform: rotateY(180deg);
-      border-radius: 10px;
-    }
+        .memory-card {
+            cursor: pointer;
+            background-color: #f5f6fa;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+        }
 
-    .win-message {
-      display: none;
-      color: #ffffff;
-      font-size: 24px;
-      text-align: center;
-      margin-top: 20px;
-    }
-  </style>
+        .memory-card:hover {
+            transform: scale(1.05);
+        }
+
+        /* Weihnachtsfarben und Design */
+        .memory-card .back-face {
+            background: url('images/back.png') no-repeat center center/cover;
+        }
+
+        h1 {
+            color: #ffffff;
+        }
+    </style>
 </head>
 <body>
 
-  <h1>Weihnachtliches Memory-Spiel</h1>
-  
-  <div class="level-selector">
-    <button onclick="startGame(4)">Einfach</button>
-    <button onclick="startGame(8)">Mittel</button>
-    <button onclick="startGame(12)">Schwer</button>
-  </div>
+    <div class="container">
+        <h1>🎄 Weihnachts-Memory-Spiel 🎅</h1>
+        <div class="memory-game">
+            <div class="memory-card" data-card="santa">
+                <img class="front-face" src="images/santa.png" alt="Santa">
+                <img class="back-face" src="images/back.png" alt="Weihnachten">
+            </div>
+            <div class="memory-card" data-card="santa">
+                <img class="front-face" src="images/santa.png" alt="Santa">
+                <img class="back-face" src="images/back.png" alt="Weihnachten">
+            </div>
+            <div class="memory-card" data-card="tree">
+                <img class="front-face" src="images/tree.png" alt="Baum">
+                <img class="back-face" src="images/back.png" alt="Weihnachten">
+            </div>
+            <div class="memory-card" data-card="tree">
+                <img class="front-face" src="images/tree.png" alt="Baum">
+                <img class="back-face" src="images/back.png" alt="Weihnachten">
+            </div>
+            <div class="memory-card" data-card="gift">
+                <img class="front-face" src="images/gift.png" alt="Geschenk">
+                <img class="back-face" src="images/back.png" alt="Weihnachten">
+            </div>
+            <div class="memory-card" data-card="gift">
+                <img class="front-face" src="images/gift.png" alt="Geschenk">
+                <img class="back-face" src="images/back.png" alt="Weihnachten">
+            </div>
+            <div class="memory-card" data-card="snowman">
+                <img class="front-face" src="images/snowman.png" alt="Schneemann">
+                <img class="back-face" src="images/back.png" alt="Weihnachten">
+            </div>
+            <div class="memory-card" data-card="snowman">
+                <img class="front-face" src="images/snowman.png" alt="Schneemann">
+                <img class="back-face" src="images/back.png" alt="Weihnachten">
+            </div>
+        </div>
+    </div>
 
-  <div class="memory-game"></div>
+    <script>
+        const cards = document.querySelectorAll('.memory-card');
 
-  <p class="win-message">🎉 Herzlichen Glückwunsch! Du hast das Memory-Spiel gelöst! 🎉</p>
+        let hasFlippedCard = false;
+        let lockBoard = false;
+        let firstCard, secondCard;
 
-  <script>
-    const cardsContainer = document.querySelector('.memory-game');
-    const winMessage = document.querySelector('.win-message');
-    let cards = [];
-    let firstCard, secondCard;
-    let hasFlippedCard = false;
-    let lockBoard = false;
-    let pairsFound = 0;
-    let totalPairs = 0;
+        function flipCard() {
+            if (lockBoard) return;
+            if (this === firstCard) return;
 
-    const cardImages = [
-      'https://cdn.pixabay.com/photo/2016/11/29/09/20/christmas-gift-1867460_960_720.png',  // Geschenk
-      'https://cdn.pixabay.com/photo/2014/12/21/23/28/santa-575425_960_720.png',  // Weihnachtsmann
-      'https://cdn.pixabay.com/photo/2016/10/28/23/03/christmas-tree-1783959_960_720.png',  // Weihnachtsbaum
-      'https://cdn.pixabay.com/photo/2014/12/22/12/34/reindeer-577080_960_720.png',  // Rentier
-      'https://cdn.pixabay.com/photo/2016/12/20/15/50/snowman-1918172_960_720.png',  // Schneemann
-      'https://cdn.pixabay.com/photo/2017/12/18/01/19/christmas-ball-3026681_960_720.png'   // Weihnachtskugel
-    ];
+            this.classList.add('flip');
 
-    function startGame(pairs) {
-      totalPairs = pairs;
-      pairsFound = 0;
-      winMessage.style.display = 'none';
-      cardsContainer.style.display = 'flex';
-      cardsContainer.innerHTML = ''; // Spielbrett leeren
-      cards = [];
-      
-      // Karten zufällig auswählen
-      let selectedImages = [];
-      for (let i = 0; i < pairs / 2; i++) {
-        selectedImages.push(cardImages[i]);
-      }
+            if (!hasFlippedCard) {
+                // First click
+                hasFlippedCard = true;
+                firstCard = this;
+                return;
+            }
 
-      selectedImages = [...selectedImages, ...selectedImages]; // Paare erstellen
-      selectedImages.sort(() => Math.random() - 0.5); // Mischen
+            // Second click
+            secondCard = this;
+            checkForMatch();
+        }
 
-      // Karten erstellen
-      selectedImages.forEach((src) => {
-        const card = document.createElement('div');
-        card.classList.add('memory-card');
-        card.dataset.framework = src;
+        function checkForMatch() {
+            let isMatch = firstCard.dataset.card === secondCard.dataset.card;
 
-        card.innerHTML = `
-          <img class="front" src="${src}" alt="Memory Card" />
-          <div class="back"></div>
-        `;
-        cards.push(card);
-        cardsContainer.appendChild(card);
-      });
+            isMatch ? disableCards() : unflipCards();
+        }
 
-      cards.forEach(card => card.addEventListener('click', flipCard));
-    }
+        function disableCards() {
+            firstCard.removeEventListener('click', flipCard);
+            secondCard.removeEventListener('click', flipCard);
 
-    function flipCard() {
-      if (lockBoard) return;
-      if (this === firstCard) return;
+            resetBoard();
+        }
 
-      this.classList.add('flip');
+        function unflipCards() {
+            lockBoard = true;
 
-      if (!hasFlippedCard) {
-        hasFlippedCard = true;
-        firstCard = this;
-        return;
-      }
+            setTimeout(() => {
+                firstCard.classList.remove('flip');
+                secondCard.classList.remove('flip');
 
-      secondCard = this;
-      checkForMatch();
-    }
+                resetBoard();
+            }, 1500);
+        }
 
-    function checkForMatch() {
-      let isMatch = firstCard.dataset.framework === secondCard.dataset.framework;
-      isMatch ? disableCards() : unflipCards();
-    }
+        function resetBoard() {
+            [hasFlippedCard, lockBoard] = [false, false];
+            [firstCard, secondCard] = [null, null];
+        }
 
-    function disableCards() {
-      firstCard.removeEventListener('click', flipCard);
-      secondCard.removeEventListener('click', flipCard);
+        (function shuffle() {
+            cards.forEach(card => {
+                let randomPos = Math.floor(Math.random() * 12);
+                card.style.order = randomPos;
+            });
+        })();
 
-      resetBoard();
-      pairsFound++;
+        cards.forEach(card => card.addEventListener('click', flipCard));
+    </script>
 
-      if (pairsFound === totalPairs / 2) {
-        winMessage.style.display = 'block';
-      }
-    }
-
-    function unflipCards() {
-      lockBoard = true;
-
-      setTimeout(() => {
-        firstCard.classList.remove('flip');
-        secondCard.classList.remove('flip');
-        resetBoard();
-      }, 1500);
-    }
-
-    function resetBoard() {
-      [hasFlippedCard, lockBoard] = [false, false];
-      [firstCard, secondCard] = [null, null];
-    }
-
-  </script>
 </body>
 </html>
