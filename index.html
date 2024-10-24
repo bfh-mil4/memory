@@ -8,6 +8,7 @@
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
       height: 100vh;
@@ -21,12 +22,35 @@
       margin-bottom: 20px;
     }
 
+    .level-selector {
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .level-selector button {
+      padding: 10px 20px;
+      margin: 5px;
+      font-size: 16px;
+      background-color: #27ae60;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .level-selector button:hover {
+      background-color: #2ecc71;
+    }
+
     .memory-game {
+      display: none;
       width: 640px;
       height: 640px;
       display: flex;
       flex-wrap: wrap;
       perspective: 1000px;
+      margin-top: 20px;
     }
 
     .memory-card {
@@ -56,6 +80,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      border-radius: 10px;
     }
 
     .front img {
@@ -68,9 +93,10 @@
       background-image: url('https://cdn.pixabay.com/photo/2016/11/19/18/06/christmas-1844229_960_720.png');
       background-size: cover;
       transform: rotateY(180deg);
+      border-radius: 10px;
     }
 
-    /* Styling für den weihnachtlichen Hintergrund */
+    /* Weihnachtlicher Hintergrund */
     body::before {
       content: '';
       position: absolute;
@@ -90,55 +116,77 @@
       color: #ffffff;
       font-size: 24px;
       text-align: center;
+      margin-top: 20px;
     }
+
   </style>
 </head>
 <body>
 
-  <div class="container">
-    <h1>Weihnachtliches Memory-Spiel</h1>
-    <div class="memory-game">
-      <div class="memory-card" data-framework="santa">
-        <img class="front" src="https://cdn.pixabay.com/photo/2014/12/21/23/28/santa-575425_960_720.png" alt="Weihnachtsmann" />
-        <div class="back"></div>
-      </div>
-      <div class="memory-card" data-framework="santa">
-        <img class="front" src="https://cdn.pixabay.com/photo/2014/12/21/23/28/santa-575425_960_720.png" alt="Weihnachtsmann" />
-        <div class="back"></div>
-      </div>
-      <div class="memory-card" data-framework="tree">
-        <img class="front" src="https://cdn.pixabay.com/photo/2016/10/28/23/03/christmas-tree-1783959_960_720.png" alt="Weihnachtsbaum" />
-        <div class="back"></div>
-      </div>
-      <div class="memory-card" data-framework="tree">
-        <img class="front" src="https://cdn.pixabay.com/photo/2016/10/28/23/03/christmas-tree-1783959_960_720.png" alt="Weihnachtsbaum" />
-        <div class="back"></div>
-      </div>
-      <div class="memory-card" data-framework="gift">
-        <img class="front" src="https://cdn.pixabay.com/photo/2016/11/29/09/20/christmas-gift-1867460_960_720.png" alt="Geschenk" />
-        <div class="back"></div>
-      </div>
-      <div class="memory-card" data-framework="gift">
-        <img class="front" src="https://cdn.pixabay.com/photo/2016/11/29/09/20/christmas-gift-1867460_960_720.png" alt="Geschenk" />
-        <div class="back"></div>
-      </div>
-      <div class="memory-card" data-framework="reindeer">
-        <img class="front" src="https://cdn.pixabay.com/photo/2014/12/22/12/34/reindeer-577080_960_720.png" alt="Rentier" />
-        <div class="back"></div>
-      </div>
-      <div class="memory-card" data-framework="reindeer">
-        <img class="front" src="https://cdn.pixabay.com/photo/2014/12/22/12/34/reindeer-577080_960_720.png" alt="Rentier" />
-        <div class="back"></div>
-      </div>
-    </div>
-    <p class="win-message">🎉 Herzlichen Glückwunsch! Du hast das Memory-Spiel gelöst! 🎉</p>
+  <h1>Weihnachtliches Memory-Spiel</h1>
+  
+  <div class="level-selector">
+    <button onclick="startGame(4)">Einfach</button>
+    <button onclick="startGame(8)">Mittel</button>
+    <button onclick="startGame(12)">Schwer</button>
   </div>
 
+  <div class="memory-game"></div>
+
+  <p class="win-message">🎉 Herzlichen Glückwunsch! Du hast das Memory-Spiel gelöst! 🎉</p>
+
   <script>
-    const cards = document.querySelectorAll('.memory-card');
+    const cardsContainer = document.querySelector('.memory-game');
+    const winMessage = document.querySelector('.win-message');
+    let cards = [];
+    let firstCard, secondCard;
     let hasFlippedCard = false;
     let lockBoard = false;
-    let firstCard, secondCard;
+    let pairsFound = 0;
+    let totalPairs = 0;
+
+    const cardImages = [
+      'https://cdn.pixabay.com/photo/2016/11/29/09/20/christmas-gift-1867460_960_720.png',  // Geschenk
+      'https://cdn.pixabay.com/photo/2014/12/21/23/28/santa-575425_960_720.png',  // Weihnachtsmann
+      'https://cdn.pixabay.com/photo/2016/10/28/23/03/christmas-tree-1783959_960_720.png',  // Weihnachtsbaum
+      'https://cdn.pixabay.com/photo/2014/12/22/12/34/reindeer-577080_960_720.png',  // Rentier
+      'https://cdn.pixabay.com/photo/2016/12/20/15/50/snowman-1918172_960_720.png',  // Schneemann
+      'https://cdn.pixabay.com/photo/2017/12/18/01/19/christmas-ball-3026681_960_720.png'   // Weihnachtskugel
+    ];
+
+    function startGame(pairs) {
+      totalPairs = pairs;
+      pairsFound = 0;
+      winMessage.style.display = 'none';
+      cardsContainer.style.display = 'flex';
+      cardsContainer.innerHTML = ''; // Spielbrett leeren
+      cards = [];
+      
+      // Karten zufällig auswählen
+      let selectedImages = [];
+      for (let i = 0; i < pairs / 2; i++) {
+        selectedImages.push(cardImages[i]);
+      }
+
+      selectedImages = [...selectedImages, ...selectedImages]; // Paare erstellen
+      selectedImages.sort(() => Math.random() - 0.5); // Mischen
+
+      // Karten erstellen
+      selectedImages.forEach((src) => {
+        const card = document.createElement('div');
+        card.classList.add('memory-card');
+        card.dataset.framework = src;
+
+        card.innerHTML = `
+          <img class="front" src="${src}" alt="Memory Card" />
+          <div class="back"></div>
+        `;
+        cards.push(card);
+        cardsContainer.appendChild(card);
+      });
+
+      cards.forEach(card => card.addEventListener('click', flipCard));
+    }
 
     function flipCard() {
       if (lockBoard) return;
@@ -166,7 +214,11 @@
       secondCard.removeEventListener('click', flipCard);
 
       resetBoard();
-      checkForWin();
+      pairsFound++;
+
+      if (pairsFound === totalPairs / 2) {
+        winMessage.style.display = 'block';
+      }
     }
 
     function unflipCards() {
@@ -175,7 +227,6 @@
       setTimeout(() => {
         firstCard.classList.remove('flip');
         secondCard.classList.remove('flip');
-
         resetBoard();
       }, 1500);
     }
@@ -185,21 +236,6 @@
       [firstCard, secondCard] = [null, null];
     }
 
-    function checkForWin() {
-      const flippedCards = document.querySelectorAll('.flip');
-      if (flippedCards.length === cards.length) {
-        document.querySelector('.win-message').style.display = 'block';
-      }
-    }
-
-    (function shuffle() {
-      cards.forEach(card => {
-        let randomPos = Math.floor(Math.random() * 12);
-        card.style.order = randomPos;
-      });
-    })();
-
-    cards.forEach(card => card.addEventListener('click', flipCard));
   </script>
 </body>
 </html>
