@@ -66,7 +66,7 @@
             background-color: rgba(255, 255, 255, 0.9);
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 0 6px 20px rgba(0, 0, 0, 0.19);
             cursor: pointer;
-            outline: none; /* Entfernt blaue und gelbe Umrandungen */
+            outline: none;
         }
 
         .memory-card.flip {
@@ -93,9 +93,9 @@
             border: 2px solid #74b9ff;
         }
 
-        /* Entferne Hover-Effekte */
+        /* Entferne Hover-Effekte und verhindere umdrehen beim Mausüberfahren */
         .memory-card:hover {
-            transform: none;
+            transform: none !important;
         }
 
         /* Start-Screen */
