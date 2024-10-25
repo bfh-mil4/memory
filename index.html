@@ -229,13 +229,14 @@
             const gameBoard = document.getElementById('memory-game');
             gameBoard.innerHTML = '';  // Clear the board
 
-            let selectedImages = cardImages.slice(0, numPairs);
-            let cards = [...selectedImages, ...selectedImages];  // Duplicate the array for pairs
+            // Limitiere die Auswahl basierend auf der Anzahl der Paare
+            let selectedImages = cardImages.slice(0, Math.min(numPairs, cardImages.length));
+            let cards = [...selectedImages, ...selectedImages];  // Dupliziere die Array-Elemente für Paare
 
-            // Shuffle the cards
+            // Shuffle die Karten
             cards.sort(() => 0.5 - Math.random());
 
-            // Generate card HTML
+            // Generiere die Karten als HTML
             cards.forEach(card => {
                 const memoryCard = document.createElement('div');
                 memoryCard.classList.add('memory-card');
