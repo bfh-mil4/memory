@@ -71,7 +71,6 @@
 
         .memory-card.flip {
             transform: rotateY(180deg);
-            pointer-events: none; /* Verhindert jede Interaktion nach dem Umdrehen */
         }
 
         .memory-card img {
@@ -252,7 +251,6 @@
             if (this === firstCard) return;
 
             this.classList.add('flip');
-            this.style.pointerEvents = 'none'; // Disable further interaction with this card
 
             if (!hasFlippedCard) {
                 hasFlippedCard = true;
@@ -261,6 +259,7 @@
             }
 
             secondCard = this;
+            lockBoard = true;
             checkForMatch();
         }
 
@@ -286,8 +285,6 @@
         }
 
         function unflipCards() {
-            lockBoard = true;
-
             setTimeout(() => {
                 firstCard.classList.remove('flip');
                 secondCard.classList.remove('flip');
