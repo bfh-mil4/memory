@@ -71,7 +71,7 @@
 
         .memory-card.flip {
             transform: rotateY(180deg);
-            pointer-events: none; /* Verhindere weitere Mausereignisse auf dieser Karte */
+            pointer-events: none;
         }
 
         .memory-card img {
@@ -92,11 +92,6 @@
             background-color: #f8f3f4;
             background-image: url('https://images.pexels.com/photos/2403402/pexels-photo-2403402.jpeg');
             border: 2px solid #74b9ff;
-        }
-
-        /* Kein Hover Effekt */
-        .memory-card:hover {
-            transform: none;
         }
 
         /* Start-Screen */
@@ -133,6 +128,7 @@
             color: white;
             border-radius: 10px;
             cursor: pointer;
+            margin: 10px;
             transition: background-color 0.3s;
         }
 
@@ -155,7 +151,7 @@
             color: #ffeaa7;
             text-align: center;
             font-size: 2em;
-            z-index: 10; /* Überlagere die Karten */
+            z-index: 10;
         }
 
         .win-screen h2 {
@@ -184,8 +180,10 @@
     <!-- Start-Screen -->
     <div class="start-screen">
         <h2>🎅 Willkommen zum Weihnachts-Memory-Spiel 🎄</h2>
-        <p>Finde alle passenden Kartenpaare und sammle Punkte!</p>
-        <button class="start-btn" onclick="startGame()">Spiel Starten</button>
+        <p>Wähle eine Schwierigkeitsstufe:</p>
+        <button class="start-btn" onclick="startGame('leicht')">Leicht (4 Paare)</button>
+        <button class="start-btn" onclick="startGame('mittel')">Mittel (6 Paare)</button>
+        <button class="start-btn" onclick="startGame('schwer')">Schwer (8 Paare)</button>
     </div>
 
     <!-- Gewinnbildschirm -->
@@ -198,53 +196,58 @@
     <div class="container">
         <h1>🎄 Weihnachts-Memory-Spiel 🎅</h1>
         <div class="scoreboard">Punktestand: <span id="score">0</span></div>
-        <div class="memory-game">
-            <div class="memory-card" data-card="santa">
-                <img class="front-face" src="https://i.imgur.com/40URgbp.png" alt="Santa">
-                <img class="back-face" src="https://png.pngtree.com/png-vector/20230907/ourmid/pngtree-christmas-tree-clipart-png-image_10013507.png" alt="Weihnachten">
-            </div>
-            <div class="memory-card" data-card="santa">
-                <img class="front-face" src="https://i.imgur.com/40URgbp.png" alt="Santa">
-                <img class="back-face" src="https://png.pngtree.com/png-vector/20230907/ourmid/pngtree-christmas-tree-clipart-png-image_10013507.png" alt="Weihnachten">
-            </div>
-            <div class="memory-card" data-card="tree">
-                <img class="front-face" src="https://i.imgur.com/bahKS9v.png" alt="Baum">
-                <img class="back-face" src="https://png.pngtree.com/png-vector/20230907/ourmid/pngtree-christmas-tree-clipart-png-image_10013507.png" alt="Weihnachten">
-            </div>
-            <div class="memory-card" data-card="tree">
-                <img class="front-face" src="https://i.imgur.com/bahKS9v.png" alt="Baum">
-                <img class="back-face" src="https://png.pngtree.com/png-vector/20230907/ourmid/pngtree-christmas-tree-clipart-png-image_10013507.png" alt="Weihnachten">
-            </div>
-            <div class="memory-card" data-card="gift">
-                <img class="front-face" src="https://i.imgur.com/u6Tmzxa.png" alt="Geschenk">
-                <img class="back-face" src="https://png.pngtree.com/png-vector/20230907/ourmid/pngtree-christmas-tree-clipart-png-image_10013507.png" alt="Weihnachten">
-            </div>
-            <div class="memory-card" data-card="gift">
-                <img class="front-face" src="https://i.imgur.com/u6Tmzxa.png" alt="Geschenk">
-                <img class="back-face" src="https://png.pngtree.com/png-vector/20230907/ourmid/pngtree-christmas-tree-clipart-png-image_10013507.png" alt="Weihnachten">
-            </div>
-            <div class="memory-card" data-card="snowman">
-                <img class="front-face" src="https://i.imgur.com/OkQkmVb.png" alt="Schneemann">
-                <img class="back-face" src="https://png.pngtree.com/png-vector/20230907/ourmid/pngtree-christmas-tree-clipart-png-image_10013507.png" alt="Weihnachten">
-            </div>
-            <div class="memory-card" data-card="snowman">
-                <img class="front-face" src="https://i.imgur.com/OkQkmVb.png" alt="Schneemann">
-                <img class="back-face" src="https://png.pngtree.com/png-vector/20230907/ourmid/pngtree-christmas-tree-clipart-png-image_10013507.png" alt="Weihnachten">
-            </div>
-        </div>
+        <div class="memory-game" id="memory-game"></div>
     </div>
 
     <script>
-        const cards = document.querySelectorAll('.memory-card');
+        const cardImages = [
+            { name: 'santa', img: 'https://i.imgur.com/40URgbp.png' },
+            { name: 'tree', img: 'https://i.imgur.com/bahKS9v.png' },
+            { name: 'gift', img: 'https://i.imgur.com/u6Tmzxa.png' },
+            { name: 'snowman', img: 'https://i.imgur.com/OkQkmVb.png' }
+        ];
+
         let score = 0;
         let matchedPairs = 0;
         let hasFlippedCard = false;
         let lockBoard = false;
         let firstCard, secondCard;
 
-        function startGame() {
+        function startGame(difficulty) {
             document.querySelector('.start-screen').style.display = 'none';
             document.querySelector('.container').style.display = 'block';
+
+            let numPairs;
+            if (difficulty === 'leicht') numPairs = 4;
+            else if (difficulty === 'mittel') numPairs = 6;
+            else numPairs = 8;
+
+            createCards(numPairs);
+        }
+
+        function createCards(numPairs) {
+            const gameBoard = document.getElementById('memory-game');
+            gameBoard.innerHTML = '';  // Clear the board
+
+            let selectedImages = cardImages.slice(0, numPairs);
+            let cards = [...selectedImages, ...selectedImages];  // Duplicate the array for pairs
+
+            // Shuffle the cards
+            cards.sort(() => 0.5 - Math.random());
+
+            // Generate card HTML
+            cards.forEach(card => {
+                const memoryCard = document.createElement('div');
+                memoryCard.classList.add('memory-card');
+                memoryCard.dataset.card = card.name;
+
+                memoryCard.innerHTML = `
+                    <img class="front-face" src="${card.img}" alt="${card.name}">
+                    <img class="back-face" src="https://png.pngtree.com/png-vector/20230907/ourmid/pngtree-christmas-tree-clipart-png-image_10013507.png" alt="Weihnachten">
+                `;
+                memoryCard.addEventListener('click', flipCard);
+                gameBoard.appendChild(memoryCard);
+            });
         }
 
         function flipCard() {
@@ -280,7 +283,7 @@
             resetBoard();
 
             // Überprüfe, ob das Spiel gewonnen wurde (alle Paare sind gefunden)
-            if (matchedPairs === cards.length / 2) {
+            if (matchedPairs === document.querySelectorAll('.memory-card').length / 2) {
                 setTimeout(showWinScreen, 500);
             }
         }
@@ -301,15 +304,6 @@
         function showWinScreen() {
             document.querySelector('.win-screen').style.display = 'flex';
         }
-
-        (function shuffle() {
-            cards.forEach(card => {
-                let randomPos = Math.floor(Math.random() * cards.length);
-                card.style.order = randomPos;
-            });
-        })();
-
-        cards.forEach(card => card.addEventListener('click', flipCard));
     </script>
 
 </body>
