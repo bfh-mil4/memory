@@ -43,23 +43,21 @@
 
         .container {
             text-align: center;
-            display: none; /* Starten im ausgeblendeten Zustand */
+            display: none;
         }
 
         .memory-game {
-            width: 640px; /* Feste Breite */
-            display: grid;
-            grid-template-columns: repeat(4, 1fr); /* 4 Karten pro Reihe */
-            grid-template-rows: repeat(4, 1fr); /* 4 Reihen */
-            gap: 10px; /* Platz zwischen den Karten */
+            display: flex;
+            flex-wrap: wrap;
             justify-content: center;
-            align-content: center;
-            perspective: 1000px;
+            max-width: 800px;
+            margin: 0 auto;
         }
 
         .memory-card {
-            width: 100%; /* Die Karte füllt den Grid-Bereich aus */
-            height: 100%; /* Die Höhe passt sich der Breite an */
+            width: 150px;
+            height: 150px;
+            margin: 10px;
             position: relative;
             transform-style: preserve-3d;
             transition: transform 0.5s ease;
