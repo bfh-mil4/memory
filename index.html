@@ -204,7 +204,11 @@
             { name: 'santa', img: 'https://i.imgur.com/40URgbp.png' },
             { name: 'tree', img: 'https://i.imgur.com/bahKS9v.png' },
             { name: 'gift', img: 'https://i.imgur.com/u6Tmzxa.png' },
-            { name: 'snowman', img: 'https://i.imgur.com/OkQkmVb.png' }
+            { name: 'snowman', img: 'https://i.imgur.com/OkQkmVb.png' },
+            { name: 'elf', img: 'https://i.imgur.com/zD5o7Mv.png' },
+            { name: 'reindeer', img: 'https://i.imgur.com/kPTuhLn.png' },
+            { name: 'candy', img: 'https://i.imgur.com/1AypvWF.png' },
+            { name: 'stocking', img: 'https://i.imgur.com/o8QgHiB.png' }
         ];
 
         let score = 0;
@@ -229,14 +233,14 @@
             const gameBoard = document.getElementById('memory-game');
             gameBoard.innerHTML = '';  // Clear the board
 
-            // Limitiere die Auswahl basierend auf der Anzahl der Paare
-            let selectedImages = cardImages.slice(0, Math.min(numPairs, cardImages.length));
-            let cards = [...selectedImages, ...selectedImages];  // Dupliziere die Array-Elemente für Paare
+            // Wähle die entsprechende Anzahl Karten basierend auf der Schwierigkeit
+            let selectedImages = cardImages.slice(0, numPairs);
+            let cards = [...selectedImages, ...selectedImages];  // Dupliziere die Karten für Paare
 
-            // Shuffle die Karten
+            // Mische die Karten
             cards.sort(() => 0.5 - Math.random());
 
-            // Generiere die Karten als HTML
+            // Erstelle die Karten als HTML-Elemente
             cards.forEach(card => {
                 const memoryCard = document.createElement('div');
                 memoryCard.classList.add('memory-card');
