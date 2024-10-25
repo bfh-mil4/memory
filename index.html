@@ -71,10 +71,7 @@
 
         .memory-card.flip {
             transform: rotateY(180deg);
-        }
-
-        .memory-card.flip:hover {
-            pointer-events: none; /* Verhindere Hover-Interaktionen bei aufgedeckten Karten */
+            pointer-events: none; /* Verhindert jede Interaktion nach dem Umdrehen */
         }
 
         .memory-card img {
@@ -255,6 +252,7 @@
             if (this === firstCard) return;
 
             this.classList.add('flip');
+            this.style.pointerEvents = 'none'; // Disable further interaction with this card
 
             if (!hasFlippedCard) {
                 hasFlippedCard = true;
