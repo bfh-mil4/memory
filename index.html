@@ -36,9 +36,16 @@
 
         .scoreboard {
             font-size: 1.5em;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
             color: #ff7675;
             font-weight: bold;
+        }
+
+        .timer {
+            font-size: 1.2em;
+            color: #fbc531;
+            font-weight: bold;
+            margin-bottom: 20px;
         }
 
         .container {
@@ -159,6 +166,11 @@
             margin-bottom: 20px;
         }
 
+        .win-screen p {
+            font-size: 1.5em;
+            margin-bottom: 20px;
+        }
+
         .win-screen button {
             padding: 15px 30px;
             font-size: 1.5em;
@@ -190,12 +202,15 @@
     <div class="win-screen" id="win-screen">
         <h2>Herzlichen Glückwunsch! 🎉</h2>
         <p>Du hast alle Kartenpaare gefunden!</p>
+        <p>Punktestand: <span id="final-score">0</span></p>
+        <p>Benötigte Zeit: <span id="final-time">0s</span></p>
         <button onclick="location.reload()">Nochmal spielen</button>
     </div>
 
     <div class="container">
         <h1>🎄 Weihnachts-Memory-Spiel 🎅</h1>
         <div class="scoreboard">Punktestand: <span id="score">0</span></div>
+        <div class="timer">Zeit: <span id="timer">0s</span></div>
         <div class="memory-game" id="memory-game"></div>
     </div>
 
@@ -216,6 +231,7 @@
         let hasFlippedCard = false;
         let lockBoard = false;
         let firstCard, secondCard;
+        let startTime, timerInterval;
 
         function startGame(difficulty) {
             document.querySelector('.start-screen').style.display = 'none';
@@ -227,20 +243,17 @@
             else numPairs = 8;
 
             createCards(numPairs);
+            startTimer();
         }
 
         function createCards(numPairs) {
             const gameBoard = document.getElementById('memory-game');
             gameBoard.innerHTML = '';  // Clear the board
 
-            // Wähle die entsprechende Anzahl Karten basierend auf der Schwierigkeit
             let selectedImages = cardImages.slice(0, numPairs);
-            let cards = [...selectedImages, ...selectedImages];  // Dupliziere die Karten für Paare
-
-            // Mische die Karten
+            let cards = [...selectedImages, ...selectedImages];
             cards.sort(() => 0.5 - Math.random());
 
-            // Erstelle die Karten als HTML-Elemente
             cards.forEach(card => {
                 const memoryCard = document.createElement('div');
                 memoryCard.classList.add('memory-card');
@@ -253,6 +266,18 @@
                 memoryCard.addEventListener('click', flipCard);
                 gameBoard.appendChild(memoryCard);
             });
+        }
+
+        function startTimer() {
+            startTime = Date.now();
+            timerInterval = setInterval(() => {
+                const elapsedSeconds = Math.floor((Date.now() - startTime) / 1000);
+                document.getElementById('timer').innerText = `${elapsedSeconds}s`;
+            }, 1000);
+        }
+
+        function stopTimer() {
+            clearInterval(timerInterval);
         }
 
         function flipCard() {
@@ -287,7 +312,6 @@
 
             resetBoard();
 
-            // Überprüfe, ob das Spiel gewonnen wurde (alle Paare sind gefunden)
             if (matchedPairs === document.querySelectorAll('.memory-card').length / 2) {
                 setTimeout(showWinScreen, 500);
             }
@@ -307,6 +331,9 @@
         }
 
         function showWinScreen() {
+            stopTimer();
+            document.getElementById('final-score').innerText = score;
+            document.getElementById('final-time').innerText = `${Math.floor((Date.now() - startTime) / 1000)}s`;
             document.querySelector('.win-screen').style.display = 'flex';
         }
     </script>
