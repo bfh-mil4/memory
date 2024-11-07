@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Weihnachtliches Memory-Spiel</title>
+    <title>Christmas memory game</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Mountains+of+Christmas:wght@400;700&display=swap');
 
@@ -191,26 +191,26 @@
 
     <!-- Start-Screen -->
     <div class="start-screen">
-        <h2>🎅 Willkommen zum Weihnachts-Memory-Spiel 🎄</h2>
-        <p>Wähle eine Schwierigkeitsstufe:</p>
-        <button class="start-btn" onclick="startGame('leicht')">Leicht (4 Paare)</button>
-        <button class="start-btn" onclick="startGame('mittel')">Mittel (6 Paare)</button>
-        <button class="start-btn" onclick="startGame('schwer')">Schwer (8 Paare)</button>
+        <h2>🎅 Welcome to the Christmas memory game! 🎄</h2>
+        <p>Choose a difficulty level:</p>
+        <button class="start-btn" onclick="startGame('leicht')">Easy (4 pairs)</button>
+        <button class="start-btn" onclick="startGame('mittel')">Medium (6 pairs)</button>
+        <button class="start-btn" onclick="startGame('schwer')">Hard (8 pairs)</button>
     </div>
 
     <!-- Gewinnbildschirm -->
     <div class="win-screen" id="win-screen">
-        <h2>Herzlichen Glückwunsch! 🎉</h2>
-        <p>Du hast alle Kartenpaare gefunden!</p>
-        <p>Punktestand: <span id="final-score">0</span></p>
-        <p>Benötigte Zeit: <span id="final-time">0s</span></p>
-        <button onclick="location.reload()">Nochmal spielen</button>
+        <h2>Congratulations! 🎉</h2>
+        <p>You have found all the card pairs!</p>
+        <p>Score: <span id="final-score">0</span></p>
+        <p>Time required: <span id="final-time">0s</span></p>
+        <button onclick="location.reload()">Play again</button>
     </div>
 
     <div class="container">
-        <h1>🎄 Weihnachts-Memory-Spiel 🎅</h1>
-        <div class="scoreboard">Punktestand: <span id="score">0</span></div>
-        <div class="timer">Zeit: <span id="timer">0s</span></div>
+        <h1>🎄 Christmas memory game 🎅</h1>
+        <div class="scoreboard">Score: <span id="score">0</span></div>
+        <div class="timer">Time: <span id="timer">0s</span></div>
         <div class="memory-game" id="memory-game"></div>
     </div>
 
