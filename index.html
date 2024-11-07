@@ -336,6 +336,38 @@
             document.getElementById('final-time').innerText = `${Math.floor((Date.now() - startTime) / 1000)}s`;
             document.querySelector('.win-screen').style.display = 'flex';
         }
+
+        function sendScore(score, gameMode) {
+    try {
+        window.parent.postMessage({
+            score: score,
+            gameMode: gameMode  // 'leicht', 'mittel', or 'schwer'
+        }, '*');
+    } catch (error) {
+        console.error('Error sending score:', error);
+    }
+}
+
+    // Modify the showWinScreen function
+    function showWinScreen() {
+    stopTimer();
+    
+    // Get the current difficulty level
+    let currentDifficulty;
+    const numCards = document.querySelectorAll('.memory-card').length;
+    if (numCards === 8) currentDifficulty = 'leicht';
+    else if (numCards === 12) currentDifficulty = 'mittel';
+    else currentDifficulty = 'schwer';
+    
+    // Send score to SharePoint
+    sendScore(score, currentDifficulty);
+    
+    // Update win screen
+    document.getElementById('final-score').innerText = score;
+    document.getElementById('final-time').innerText = `${Math.floor((Date.now() - startTime) / 1000)}s`;
+    document.querySelector('.win-screen').style.display = 'flex';
+    }
+        
     </script>
 
 </body>
