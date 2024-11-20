@@ -20,23 +20,22 @@
             justify-content: center;
             align-items: center;
             flex-direction: column;
-            height: 100vh;
-            overflow: hidden;
-            position: relative;
+            min-height: 100vh;
             color: #ffffff;
+            padding: 20px;
         }
 
         h1 {
             text-align: center;
             margin-bottom: 10px;
-            font-size: 3em;
+            font-size: 2.5em;
             color: #ffeaa7;
             text-shadow: 2px 2px #d63031;
         }
 
         .scoreboard {
-            font-size: 1.5em;
-            margin-bottom: 10px;
+            font-size: 1.2em;
+            margin-bottom: 5px;
             color: #ff7675;
             font-weight: bold;
         }
@@ -45,33 +44,36 @@
             font-size: 1.2em;
             color: #fbc531;
             font-weight: bold;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
         }
 
         .container {
             text-align: center;
             display: none;
+            max-width: 100%;
+            padding: 10px;
         }
 
         .memory-game {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            max-width: 800px;
+            max-width: 600px;
             margin: 0 auto;
+            gap: 5px;
         }
 
         .memory-card {
-            width: 150px;
-            height: 150px;
-            margin: 10px;
+            width: 100px;
+            height: 100px;
+            margin: 4px;
             position: relative;
             transform-style: preserve-3d;
             transition: transform 0.5s ease;
-            border: 3px solid gold;
-            border-radius: 15px;
+            border: 2px solid gold;
+            border-radius: 10px;
             background-color: rgba(255, 255, 255, 0.9);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 0 6px 20px rgba(0, 0, 0, 0.19);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             cursor: pointer;
             outline: none;
         }
@@ -88,7 +90,8 @@
             top: 0;
             left: 0;
             backface-visibility: hidden;
-            border-radius: 10px;
+            border-radius: 8px;
+            object-fit: cover;
         }
 
         .front-face {
@@ -97,17 +100,16 @@
 
         .back-face {
             background-color: #f8f3f4;
-            background-image: url('https://images.pexels.com/photos/2403402/pexels-photo-2403402.jpeg');
-            border: 2px solid #74b9ff;
+            background-image: url('https://png.pngtree.com/png-vector/20230907/ourmid/pngtree-christmas-tree-clipart-png-image_10013507.png');
+            background-size: cover;
         }
 
-        /* Start-Screen */
         .start-screen {
-            position: absolute;
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
-            height: 100vh;
+            height: 100%;
             background-color: rgba(0, 0, 0, 0.7);
             display: flex;
             justify-content: center;
@@ -115,27 +117,29 @@
             flex-direction: column;
             color: #fff;
             text-align: center;
+            z-index: 100;
         }
 
         .start-screen h2 {
-            font-size: 2.5em;
-            margin-bottom: 20px;
+            font-size: 2em;
+            margin-bottom: 15px;
+            padding: 0 20px;
         }
 
         .start-screen p {
             font-size: 1.2em;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
         }
 
         .start-btn {
-            padding: 15px 30px;
-            font-size: 1.2em;
+            padding: 12px 25px;
+            font-size: 1.1em;
             background-color: #ff7675;
             border: none;
             color: white;
-            border-radius: 10px;
+            border-radius: 8px;
             cursor: pointer;
-            margin: 10px;
+            margin: 5px;
             transition: background-color 0.3s;
         }
 
@@ -143,13 +147,12 @@
             background-color: #e17055;
         }
 
-        /* Gewinnbildschirm */
         .win-screen {
-            position: absolute;
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
-            height: 100vh;
+            height: 100%;
             background-color: rgba(0, 0, 0, 0.8);
             display: none;
             justify-content: center;
@@ -157,27 +160,27 @@
             flex-direction: column;
             color: #ffeaa7;
             text-align: center;
-            font-size: 2em;
-            z-index: 10;
+            font-size: 1.5em;
+            z-index: 100;
         }
 
         .win-screen h2 {
-            font-size: 3em;
-            margin-bottom: 20px;
+            font-size: 2em;
+            margin-bottom: 15px;
         }
 
         .win-screen p {
-            font-size: 1.5em;
-            margin-bottom: 20px;
+            font-size: 1.2em;
+            margin-bottom: 15px;
         }
 
         .win-screen button {
-            padding: 15px 30px;
-            font-size: 1.5em;
+            padding: 12px 25px;
+            font-size: 1.2em;
             background-color: #ff7675;
             border: none;
             color: white;
-            border-radius: 10px;
+            border-radius: 8px;
             cursor: pointer;
         }
 
@@ -185,11 +188,42 @@
             background-color: #e17055;
         }
 
+        @media (max-height: 600px) {
+            .memory-card {
+                width: 80px;
+                height: 80px;
+                margin: 3px;
+            }
+
+            h1 {
+                font-size: 1.8em;
+                margin-bottom: 5px;
+            }
+
+            .start-screen h2 {
+                font-size: 1.5em;
+            }
+
+            .win-screen {
+                font-size: 1.2em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .memory-card {
+                width: 70px;
+                height: 70px;
+                margin: 2px;
+            }
+
+            .start-btn {
+                padding: 10px 20px;
+                font-size: 1em;
+            }
+        }
     </style>
 </head>
 <body>
-
-    <!-- Start-Screen -->
     <div class="start-screen">
         <h2>🎅 Welcome to the Christmas memory game! 🎄</h2>
         <p>Choose a difficulty level:</p>
@@ -198,7 +232,6 @@
         <button class="start-btn" onclick="startGame('schwer')">Hard (8 pairs)</button>
     </div>
 
-    <!-- Gewinnbildschirm -->
     <div class="win-screen" id="win-screen">
         <h2>Congratulations! 🎉</h2>
         <p>You have found all the card pairs!</p>
@@ -233,9 +266,24 @@
         let firstCard, secondCard;
         let startTime, timerInterval;
 
+        const DIFFICULTY_MULTIPLIER = {
+            'leicht': 1,
+            'mittel': 1.5,
+            'schwer': 2
+        };
+        
+        const TIME_BONUS_THRESHOLD = {
+            'leicht': 30,  // seconds
+            'mittel': 45,
+            'schwer': 60
+        };
+
+        let currentDifficulty = '';
+        
         function startGame(difficulty) {
             document.querySelector('.start-screen').style.display = 'none';
             document.querySelector('.container').style.display = 'block';
+            currentDifficulty = difficulty;  // Store the current difficulty
 
             let numPairs;
             if (difficulty === 'leicht') numPairs = 4;
@@ -248,7 +296,7 @@
 
         function createCards(numPairs) {
             const gameBoard = document.getElementById('memory-game');
-            gameBoard.innerHTML = '';  // Clear the board
+            gameBoard.innerHTML = '';
 
             let selectedImages = cardImages.slice(0, numPairs);
             let cards = [...selectedImages, ...selectedImages];
@@ -306,9 +354,11 @@
             firstCard.removeEventListener('click', flipCard);
             secondCard.removeEventListener('click', flipCard);
 
-            score++;
             matchedPairs++;
-            document.getElementById('score').innerText = score;
+            // Update the displayed score in real-time
+            const currentTime = Math.floor((Date.now() - startTime) / 1000);
+            const currentScore = calculateScore(matchedPairs, currentTime);
+            document.getElementById('score').innerText = currentScore;
 
             resetBoard();
 
@@ -330,45 +380,45 @@
             [firstCard, secondCard] = [null, null];
         }
 
-        function showWinScreen() {
-            stopTimer();
-            document.getElementById('final-score').innerText = score;
-            document.getElementById('final-time').innerText = `${Math.floor((Date.now() - startTime) / 1000)}s`;
-            document.querySelector('.win-screen').style.display = 'flex';
+        function calculateScore(matchedPairs, timeElapsed) {
+            // Base score from matched pairs (100 points per pair)
+            let baseScore = matchedPairs * 100;
+            
+            // Time bonus
+            const timeThreshold = TIME_BONUS_THRESHOLD[currentDifficulty];
+            let timeBonus = 0;
+            
+            if (timeElapsed < timeThreshold) {
+                // More bonus for faster completion
+                timeBonus = Math.floor((timeThreshold - timeElapsed) * 10);
+            }
+            
+            // Apply difficulty multiplier
+            const totalScore = Math.floor((baseScore + timeBonus) * DIFFICULTY_MULTIPLIER[currentDifficulty]);
+            
+            return totalScore;
         }
 
-        function sendScore(score, gameMode) {
-    try {
-        window.parent.postMessage({
-            score: score,
-            gameMode: gameMode  // 'leicht', 'mittel', or 'schwer'
-        }, '*');
-    } catch (error) {
-        console.error('Error sending score:', error);
-    }
-}
+        function showWinScreen() {
+            stopTimer();
+            const finalTime = Math.floor((Date.now() - startTime) / 1000);
+            const finalScore = calculateScore(matchedPairs, finalTime);
+            
+            document.getElementById('final-score').innerText = finalScore;
+            document.getElementById('final-time').innerText = `${finalTime}s`;
+            document.querySelector('.win-screen').style.display = 'flex';
 
-    // Modify the showWinScreen function
-    function showWinScreen() {
-    stopTimer();
-    
-    // Get the current difficulty level
-    let currentDifficulty;
-    const numCards = document.querySelectorAll('.memory-card').length;
-    if (numCards === 8) currentDifficulty = 'leicht';
-    else if (numCards === 12) currentDifficulty = 'mittel';
-    else currentDifficulty = 'schwer';
-    
-    // Send score to SharePoint
-    sendScore(score, currentDifficulty);
-    
-    // Update win screen
-    document.getElementById('final-score').innerText = score;
-    document.getElementById('final-time').innerText = `${Math.floor((Date.now() - startTime) / 1000)}s`;
-    document.querySelector('.win-screen').style.display = 'flex';
-    }
-        
+            // Send score to parent window (SharePoint web part)
+            try {
+                window.parent.postMessage({
+                    score: finalScore,
+                    time: finalTime,
+                    difficulty: currentDifficulty
+                }, '*');
+            } catch (error) {
+                console.error('Error sending score:', error);
+            }
+        }
     </script>
-
 </body>
-</html>
+</html> 
